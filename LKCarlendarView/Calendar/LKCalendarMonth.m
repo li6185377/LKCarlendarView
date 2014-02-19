@@ -75,6 +75,7 @@
     _currentMonth = [currentMonth copy];
     [self reloadMonthViewDate];
 }
+
 -(void)reloadMonthViewDate
 {
     NSDateComponents* dateComponents = [_currentMonth copy];
@@ -86,7 +87,7 @@
     //获得第一天 是周几
     int firstWeekDay = [currentLKCalendar components:NSWeekdayCalendarUnit fromDate:firstDay].weekday;
     
-    //获取第一天 在日历中的位置。。     （根据你的设置去换算周几）
+    //获取第一天 在日历中的位置。。     （根据你的设置去换算周几）:_firstDayWeek  可设置的
     int firstDayPosition = (firstWeekDay - _firstDayWeek + 8)%8;
     
     //第一行第一天  跟  当前月第一天    的差距天数
@@ -95,7 +96,7 @@
     int size = _dayViews.count;
     NSMutableArray* dateArray = [NSMutableArray arrayWithCapacity:size];
     for (int i=0;i<size; i++) {
-        //剩下的简单了  将第一行第一天  不断的加一  然后 保存起来  就可以 获得整个月的 时间集合了
+        //剩下的简单了  将第一行第一天  不断的加一  然后保存起来  就可以获得整个月的 时间集合了
         dateComponents.day = dayDiff;
         NSDate* date = [currentLKCalendar dateFromComponents:dateComponents];
         [dateArray addObject:date];
@@ -105,9 +106,10 @@
     [self.dates removeAllObjects];
     self.dates = [NSMutableArray arrayWithArray:dateArray];
     
-    //有时间 集合了 剩下的 就是显示了
+    //有时间集合了 剩下的 就是显示了
     [self refreshMonthView];
 }
+
 -(void)refreshMonthView
 {
     if([self.delegate respondsToSelector:@selector(calendarMonthRefreshView:)])
